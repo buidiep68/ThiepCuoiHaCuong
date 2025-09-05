@@ -378,31 +378,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (audio.paused) { audio.play(); setMusicState(true); } else { audio.pause(); setMusicState(false); }
     });
 
-    // ====== Floating Action Buttons ======
-    document.getElementById('sendWishesBtn')?.addEventListener('click', () => {
-        document.getElementById('guestbook')?.scrollIntoView({ behavior: 'smooth' });
-    });
-
-    document.getElementById('writeMessageBtn')?.addEventListener('click', () => {
-        document.getElementById('rsvp')?.scrollIntoView({ behavior: 'smooth' });
-    });
-
-    document.getElementById('emailBtn')?.addEventListener('click', () => {
-        const subject = encodeURIComponent(`Lời chúc mừng cưới - ${config.brideName} & ${config.groomName}`);
-        const body = encodeURIComponent(`Xin chào ${config.brideName} & ${config.groomName},\n\nChúc mừng các bạn nhân ngày cưới!\n\nTrân trọng,`);
-        window.open(`mailto:?subject=${subject}&body=${body}`, '_blank');
-    });
-
-    document.getElementById('giftBtn')?.addEventListener('click', () => {
-        document.getElementById('gift')?.scrollIntoView({ behavior: 'smooth' });
-    });
-
-    document.getElementById('closeFloatingBtn')?.addEventListener('click', () => {
-        const floatingActions = document.querySelector('.floating-actions');
-        if (floatingActions) {
-            floatingActions.style.display = 'none';
-        }
-    });
 
     // Expose for quick customization in console
     window.__INVITE_CONFIG__ = config;
