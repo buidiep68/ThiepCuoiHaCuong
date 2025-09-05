@@ -943,11 +943,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // ====== Falling effects (petals & snow) ======
+    // ====== Falling effects (petals, snow & hearts) ======
     (function initFallingEffects() {
         const petalLayer = document.getElementById('petalLayer');
         const snowLayer = document.getElementById('snowLayer');
-        if (!petalLayer || !snowLayer) return;
+        const heartLayer = document.getElementById('heartLayer');
+        if (!petalLayer || !snowLayer || !heartLayer) return;
 
         const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         if (prefersReduced) return;
@@ -958,17 +959,38 @@ document.addEventListener('DOMContentLoaded', () => {
             const el = document.createElement('div');
             el.className = `fall-item ${type}`;
             el.style.left = rand(-5, 100) + 'vw';
-            el.style.fontSize = rand(10, type === 'snow' ? 14 : 18) + 'px';
-            el.style.animationDuration = `${rand(8, 16)}s, ${rand(3, 6)}s`;
+
+            // Different sizes for different types
+            let fontSize;
+            let textContent;
+            let animationDuration;
+
+            if (type === 'snow') {
+                fontSize = rand(10, 14);
+                textContent = '✦';
+                animationDuration = `${rand(8, 16)}s, ${rand(3, 6)}s`;
+            } else if (type === 'heart') {
+                fontSize = rand(12, 20);
+                textContent = '💖';
+                animationDuration = `${rand(10, 18)}s, ${rand(4, 8)}s, ${rand(1, 2)}s`;
+            } else { // petal
+                fontSize = rand(10, 18);
+                textContent = '❀';
+                animationDuration = `${rand(8, 16)}s, ${rand(3, 6)}s`;
+            }
+
+            el.style.fontSize = fontSize + 'px';
+            el.style.animationDuration = animationDuration;
             el.style.setProperty('--sway', `${rand(20, 40)}px`);
-            el.textContent = type === 'snow' ? '✦' : '❀';
+            el.textContent = textContent;
             layer.appendChild(el);
             el.addEventListener('animationend', () => el.remove());
         }
 
-        let petalCount = 0, snowCount = 0;
+        let petalCount = 0, snowCount = 0, heartCount = 0;
         const PETAL_MAX = 20;
         const SNOW_MAX = 18;
+        const HEART_MAX = 15;
 
         setInterval(() => {
             if (document.hidden) return;
@@ -980,8 +1002,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (snowCount < SNOW_MAX) { spawnItem(snowLayer, 'snow'); snowCount++; }
         }, 1100);
 
+        setInterval(() => {
+            if (document.hidden) return;
+            if (heartCount < HEART_MAX) { spawnItem(heartLayer, 'heart'); heartCount++; }
+        }, 1500);
+
         // Gradually allow more by removing on end
         petalLayer.addEventListener('animationend', (e) => { if (e.target.classList.contains('petal')) petalCount = Math.max(0, petalCount - 1); });
         snowLayer.addEventListener('animationend', (e) => { if (e.target.classList.contains('snow')) snowCount = Math.max(0, snowCount - 1); });
+        heartLayer.addEventListener('animationend', (e) => { if (e.target.classList.contains('heart')) heartCount = Math.max(0, heartCount - 1); });
     })();
 }); 
