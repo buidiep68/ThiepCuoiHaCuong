@@ -192,6 +192,27 @@ document.addEventListener('DOMContentLoaded', () => {
     if (brideFrame) brideFrame.src = `https://www.google.com/maps?q=${encodeURIComponent(config.mapQueryBride || config.ceremonyAddress)}&z=15&output=embed`;
     if (groomFrame) groomFrame.src = `https://www.google.com/maps?q=${encodeURIComponent(config.mapQueryGroom || config.receptionAddress)}&z=15&output=embed`;
 
+    // ====== Lazy Loading Animation ======
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px 50px 0px'
+    };
+
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                img.classList.add('loaded');
+                observer.unobserve(img);
+            }
+        });
+    }, observerOptions);
+
+    // Observe all gallery images
+    document.querySelectorAll('.gallery__img').forEach(img => {
+        imageObserver.observe(img);
+    });
+
     // ====== Gallery Lightbox ======
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightboxImg');

@@ -14,6 +14,15 @@
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="https://fav.farm/💍" />
+
+    <!-- Optimize font loading -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+
+    <!-- Preload critical images -->
+    <link rel="preload" as="image" href="images/hero/hero1.jpg">
+    <link rel="preload" as="image" href="images/couple/bride.jpg">
+    <link rel="preload" as="image" href="images/couple/groom.jpg">
 </head>
 
 <body>
@@ -132,12 +141,12 @@
         <div class="container">
             <h2 class="section__title">Album ảnh</h2>
             <div class="grid gallery__grid" id="galleryGrid">
-                <img src="images/gallery/gallery1.jpg" alt="Ảnh cưới 1" class="gallery__img" />
-                <img src="images/gallery/gallery2.jpg" alt="Ảnh cưới 2" class="gallery__img" />
-                <img src="images/gallery/gallery3.jpg" alt="Ảnh cưới 3" class="gallery__img" />
-                <img src="images/gallery/gallery4.jpg" alt="Ảnh cưới 4" class="gallery__img" />
-                <img src="images/gallery/gallery5.jpg" alt="Ảnh cưới 5" class="gallery__img" />
-                <img src="images/gallery/gallery6.jpg" alt="Ảnh cưới 6" class="gallery__img" />
+                <img src="images/gallery/gallery1.jpg" alt="Ảnh cưới 1" class="gallery__img" loading="lazy" />
+                <img src="images/gallery/gallery2.jpg" alt="Ảnh cưới 2" class="gallery__img" loading="lazy" />
+                <img src="images/gallery/gallery3.jpg" alt="Ảnh cưới 3" class="gallery__img" loading="lazy" />
+                <img src="images/gallery/gallery4.jpg" alt="Ảnh cưới 4" class="gallery__img" loading="lazy" />
+                <img src="images/gallery/gallery5.jpg" alt="Ảnh cưới 5" class="gallery__img" loading="lazy" />
+                <img src="images/gallery/gallery6.jpg" alt="Ảnh cưới 6" class="gallery__img" loading="lazy" />
             </div>
         </div>
 
@@ -211,8 +220,8 @@
                 <div class="gift__card">
                     <h3>Nhà trai</h3>
                     <div class="qr">
-                        <img id="groomQRImg" src="images/gallery/groom-qr.jpg" alt="QR mừng cưới Nhà trai"
-                            data-lightbox>
+                        <img id="groomQRImg" src="images/gallery/groom-qr.jpg" alt="QR mừng cưới Nhà trai" data-lightbox
+                            loading="lazy">
                         <small>Quét mã QR để chuyển khoản</small>
                     </div>
                     <p><strong>Ngân hàng:</strong> MB BANK</p>
@@ -224,7 +233,8 @@
                 <div class="gift__card">
                     <h3>Nhà gái</h3>
                     <div class="qr">
-                        <img id="brideQRImg" src="images/gallery/bride-qr.jpg" alt="QR mừng cưới Nhà gái" data-lightbox>
+                        <img id="brideQRImg" src="images/gallery/bride-qr.jpg" alt="QR mừng cưới Nhà gái" data-lightbox
+                            loading="lazy">
                         <small>Quét mã QR để chuyển khoản</small>
                     </div>
                     <p><strong>Ngân hàng:</strong> BIDV</p>
