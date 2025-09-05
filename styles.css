@@ -478,12 +478,12 @@ img {
     transition: all 0.3s ease;
     background: transparent;
     padding: 0;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
+    opacity: 1;
+    transform: translateY(0);
 }
 
-.gallery__img.loaded {
+/* Fallback for browsers that don't support Intersection Observer */
+.gallery__img:not([loading="lazy"]) {
     opacity: 1;
     transform: translateY(0);
 }
@@ -512,6 +512,14 @@ img {
 
     .gallery__img {
         height: 250px;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
+    /* Ensure images are visible on mobile */
+    .gallery__img.loaded {
+        opacity: 1 !important;
+        transform: none !important;
     }
 }
 

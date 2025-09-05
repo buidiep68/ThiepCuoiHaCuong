@@ -60,6 +60,10 @@ function initHeroCarousel() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Debug: Log mobile detection
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    console.log('Mobile device detected:', isMobile);
+    console.log('User agent:', navigator.userAgent);
 
     // URL params: ?guest=Tên%20bạn
     const url = new URL(window.location.href);
@@ -193,24 +197,44 @@ document.addEventListener('DOMContentLoaded', () => {
     if (groomFrame) groomFrame.src = `https://www.google.com/maps?q=${encodeURIComponent(config.mapQueryGroom || config.receptionAddress)}&z=15&output=embed`;
 
     // ====== Lazy Loading Animation ======
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px 50px 0px'
-    };
+    // Check if IntersectionObserver is supported
+    if ('IntersectionObserver' in window) {
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px 50px 0px'
+        };
 
-    const imageObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const img = entry.target;
-                img.classList.add('loaded');
-                observer.unobserve(img);
-            }
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    img.classList.add('loaded');
+                    observer.unobserve(img);
+                }
+            });
+        }, observerOptions);
+
+        // Observe all gallery images
+        document.querySelectorAll('.gallery__img').forEach(img => {
+            imageObserver.observe(img);
         });
-    }, observerOptions);
+    } else {
+        // Fallback for older browsers - just show all images
+        document.querySelectorAll('.gallery__img').forEach(img => {
+            img.classList.add('loaded');
+        });
+    }
 
-    // Observe all gallery images
-    document.querySelectorAll('.gallery__img').forEach(img => {
-        imageObserver.observe(img);
+    // ====== Image Error Handling ======
+    document.querySelectorAll('img').forEach(img => {
+        img.addEventListener('error', function () {
+            console.log('Image failed to load:', this.src);
+            // Add fallback or retry logic here if needed
+        });
+
+        img.addEventListener('load', function () {
+            console.log('Image loaded successfully:', this.src);
+        });
     });
 
     // ====== Gallery Lightbox ======

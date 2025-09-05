@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Images - Mobile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .test-image {
+            width: 100%;
+            max-width: 300px;
+            margin: 10px 0;
+            border: 2px solid #ccc;
+        }
+
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+
+        .success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Test Images trên Mobile</h1>
+
+    <div id="status"></div>
+
+    <h2>Gallery Images:</h2>
+    <img src="images/gallery/gallery1.jpg" alt="Test 1" class="test-image" onload="imageLoaded(this)"
+        onerror="imageError(this)">
+    <img src="images/gallery/gallery2.jpg" alt="Test 2" class="test-image" onload="imageLoaded(this)"
+        onerror="imageError(this)">
+    <img src="images/gallery/gallery3.jpg" alt="Test 3" class="test-image" onload="imageLoaded(this)"
+        onerror="imageError(this)">
+
+    <h2>Hero Images:</h2>
+    <img src="images/hero/hero1.jpg" alt="Hero 1" class="test-image" onload="imageLoaded(this)"
+        onerror="imageError(this)">
+    <img src="images/hero/hero2.jpg" alt="Hero 2" class="test-image" onload="imageLoaded(this)"
+        onerror="imageError(this)">
+
+    <h2>Couple Images:</h2>
+    <img src="images/couple/bride.jpg" alt="Bride" class="test-image" onload="imageLoaded(this)"
+        onerror="imageError(this)">
+    <img src="images/couple/groom.jpg" alt="Groom" class="test-image" onload="imageLoaded(this)"
+        onerror="imageError(this)">
+
+    <script>
+        let loadedCount = 0;
+        let errorCount = 0;
+        const totalImages = 7;
+
+        function imageLoaded(img) {
+            loadedCount++;
+            updateStatus();
+            console.log('✅ Loaded:', img.src);
+        }
+
+        function imageError(img) {
+            errorCount++;
+            updateStatus();
+            console.log('❌ Error:', img.src);
+        }
+
+        function updateStatus() {
+            const status = document.getElementById('status');
+            const total = loadedCount + errorCount;
+
+            if (total === totalImages) {
+                if (errorCount === 0) {
+                    status.innerHTML = `<div class="status success">✅ Tất cả ${totalImages} ảnh đã load thành công!</div>`;
+                } else {
+                    status.innerHTML = `<div class="status error">❌ ${errorCount}/${totalImages} ảnh bị lỗi. ${loadedCount} ảnh load thành công.</div>`;
+                }
+            } else {
+                status.innerHTML = `<div class="status">⏳ Đang load: ${loadedCount}/${totalImages} (${errorCount} lỗi)</div>`;
+            }
+        }
+
+        // Log device info
+        console.log('User Agent:', navigator.userAgent);
+        console.log('Screen size:', screen.width + 'x' + screen.height);
+        console.log('Viewport size:', window.innerWidth + 'x' + window.innerHeight);
+    </script>
+</body>
+
+</html>
