@@ -1,6 +1,6 @@
 // ====== Global Config ======
 const config = {
-    brideName: 'Vũ Hải Hà',
+    brideName: 'Vũ Thị Hải Hà',
     groomName: 'Phạm Văn Cường',
     weddingDateISO: '2025-09-28T10:30:00+07:00', // Định dạng ISO với múi giờ
     ceremonyAddress: 'Thôn Hy Hà, xã Ngọc Lâm, tỉnh Hưng Yên',
@@ -15,57 +15,59 @@ const config = {
         'images/hero/hero2.jpg',
         'images/hero/hero3.jpg'
     ],
-    heroAutoplayMs: 3800,
+    heroAutoplayMs: 3000,
 };
 
 // ====== Global Functions ======
 function initHeroCarousel() {
-    const track = document.getElementById('heroTrack');
+    const slider = document.getElementById('heroSlider');
     const dotsEl = document.getElementById('heroDots');
-    const prevBtn = document.getElementById('heroPrev');
-    const nextBtn = document.getElementById('heroNext');
-    if (!track || !dotsEl || !prevBtn || !nextBtn) return;
+    if (!slider || !dotsEl) return;
 
     // Clear existing content
-    track.innerHTML = '';
     dotsEl.innerHTML = '';
 
     const images = Array.isArray(config.heroImages) && config.heroImages.length ? config.heroImages : [];
-    images.forEach((src, idx) => {
-        const slide = document.createElement('div');
-        slide.className = 'carousel__slide';
-        const img = document.createElement('img');
-        img.src = src; img.alt = `Banner ${idx + 1}`;
-        img.decoding = 'async';
-        img.setAttribute('sizes', '100vw');
-        if (idx === 0) {
-            img.loading = 'eager';
-            img.setAttribute('fetchpriority', 'high');
-        } else {
-            img.loading = 'lazy';
-            img.setAttribute('fetchpriority', 'low');
+    if (images.length === 0) return;
+
+    let index = 0;
+    let timer = null;
+    const slidesCount = images.length;
+
+    function update() {
+        if (slider) {
+            slider.style.transform = `translateX(-${index * 100}%)`;
         }
-        slide.appendChild(img);
-        track.appendChild(slide);
+        const dots = dotsEl.querySelectorAll('.carousel__dot');
+        dots.forEach((d, i) => d.classList.toggle('active', i === index));
+    }
+
+    function goTo(i) {
+        index = (i + slidesCount) % slidesCount;
+        update();
+        restart();
+    }
+
+    function next() { goTo(index + 1); }
+    function prev() { goTo(index - 1); }
+
+    function restart() {
+        if (timer) clearInterval(timer);
+        if (slidesCount > 1) timer = setInterval(next, config.heroAutoplayMs || 3000);
+    }
+
+    // Create dots
+    images.forEach((src, idx) => {
         const dot = document.createElement('button');
         dot.className = 'carousel__dot' + (idx === 0 ? ' active' : '');
         dot.setAttribute('aria-label', `Ảnh ${idx + 1}`);
         dot.addEventListener('click', () => goTo(idx));
         dotsEl.appendChild(dot);
     });
-    let index = 0; let timer = null; const slidesCount = images.length;
-    function update() {
-        track.style.transform = `translateX(-${index * 100}%)`;
-        const dots = dotsEl.querySelectorAll('.carousel__dot');
-        dots.forEach((d, i) => d.classList.toggle('active', i === index));
-    }
-    function goTo(i) { index = (i + slidesCount) % slidesCount; update(); restart(); }
-    function next() { goTo(index + 1); }
-    function prev() { goTo(index - 1); }
-    function restart() { if (timer) clearInterval(timer); if (slidesCount > 1) timer = setInterval(next, config.heroAutoplayMs || 4000); }
-    prevBtn.addEventListener('click', prev);
-    nextBtn.addEventListener('click', next);
-    if (slidesCount > 1) restart(); else update();
+
+    // Initialize with first image
+    update();
+    if (slidesCount > 1) restart();
 }
 
 document.addEventListener('DOMContentLoaded', () => {

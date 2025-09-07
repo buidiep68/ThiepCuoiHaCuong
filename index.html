@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&family=Dancing+Script:wght@400;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&family=Dancing+Script:wght@400;600;700&family=Alex+Brush&display=swap"
         rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
@@ -21,8 +21,8 @@
 
     <!-- Preload critical images -->
     <link rel="preload" as="image" href="images/hero/hero1.jpg">
-    <link rel="preload" as="image" href="images/couple/bride.jpg">
-    <link rel="preload" as="image" href="images/couple/groom.jpg">
+    <link rel="preload" as="image" href="images/hero/hero2.jpg">
+    <link rel="preload" as="image" href="images/hero/hero3.jpg">
 </head>
 
 <body>
@@ -43,18 +43,23 @@
     </header>
 
     <section class="hero" id="hero">
+        <div class="hero__slider" id="heroSlider">
+            <div class="hero__slide" style="background-image: url('images/hero/hero1.jpg');"></div>
+            <div class="hero__slide" style="background-image: url('images/hero/hero2.jpg');"></div>
+            <div class="hero__slide" style="background-image: url('images/hero/hero3.jpg');"></div>
+        </div>
         <div class="container hero__inner">
             <p class="overline">Trân trọng kính mời</p>
-            <h1 class="hero__title"><span id="brideName">[Tên Cô Dâu]</span> & <span id="groomName">[Tên Chú Rể]</span>
+            <h1 class="hero__title">
+                <span id="nameBride">Hải Hà</span> & <span id="nameGroom">Phạm Cường</span>
             </h1>
-            <div class="carousel" id="heroCarousel" aria-label="Ảnh banner">
-                <div class="carousel__track" id="heroTrack"></div>
-                <button class="carousel__btn prev" id="heroPrev" aria-label="Ảnh trước"><i
-                        class="ri-arrow-left-s-line"></i></button>
-                <button class="carousel__btn next" id="heroNext" aria-label="Ảnh sau"><i
-                        class="ri-arrow-right-s-line"></i></button>
-                <div class="carousel__dots" id="heroDots" aria-label="Chọn ảnh"></div>
-            </div>
+            <div class="carousel__dots" id="heroDots" aria-label="Chọn ảnh" style="display: none;"></div>
+        </div>
+    </section>
+
+    <!-- Section countdown và buttons -->
+    <section class="section" id="countdown-section">
+        <div class="container">
             <p class="hero__date" id="weddingDateText">[Chủ nhật], 20/10/2025 • 10:30</p>
             <div class="countdown" id="countdown">
                 <div class="countdown__item"><span id="dd">00</span><small>Ngày</small></div>
@@ -71,7 +76,7 @@
 
     <section class="couple section" id="couple">
         <div class="container">
-            <h2 class="section__title">Về chúng tôi</h2>
+            <!-- <h2 class="section__title">Về chúng tôi</h2> -->
             <p class="section__subtitle">Tình yêu là hành trình. Cảm ơn bạn đã là một phần trong ngày đặc biệt này.</p>
             <div class="couple__grid">
                 <div class="card">
@@ -80,8 +85,8 @@
                     </div>
                     <h3 id="groomNameCard" class="script-name">[Tên Chú Rể]</h3>
                     <div class="parent-info">
-                        <p>Con ông: <strong>[TÊN BA CHÚ RỂ]</strong></p>
-                        <p>Con bà: <strong>[TÊN MẸ CHÚ RỂ]</strong></p>
+                        <p>Con ông: <strong>Phạm Văn Mừng</strong></p>
+                        <p>Con bà: <strong>Đinh Thị Hương</strong></p>
                     </div>
                     <div class="description">
                         <p>Là một người hiền lành và ít nói, nhưng luôn biết cách quan tâm và chăm sóc những người thân
@@ -95,11 +100,11 @@
                     </div>
                     <h3 id="brideNameCard" class="script-name">[Tên Cô Dâu]</h3>
                     <div class="parent-info">
-                        <p>Con ông: <strong>[TÊN BA CÔ DÂU]</strong></p>
-                        <p>Con bà: <strong>[TÊN MẸ CÔ DÂU]</strong></p>
+                        <p>Con ông: <strong>Vũ Văn Hinh</strong></p>
+                        <p>Con bà: <strong>Lê Thị Hường</strong></p>
                     </div>
                     <div class="description">
-                        <p>Cô gái đến từ [Địa phương] yêu thương, với nụ cười tươi tắn và trái tim nhân hậu. Luôn mang
+                        <p>Cô gái với nụ cười tươi tắn và trái tim nhân hậu. Luôn mang
                             đến niềm vui và sự ấm áp cho mọi người xung quanh, cô là nguồn cảm hứng và động lực cho
                             những người thân yêu.</p>
                     </div>
@@ -170,12 +175,12 @@
             <form id="rsvpForm" class="form" autocomplete="on">
                 <div class="form__row">
                     <label for="fullName">Họ và tên</label>
-                    <input id="fullName" name="fullName" type="text" placeholder="VD: Nguyễn Văn A" required>
+                    <input id="fullName" name="fullName" type="text" placeholder="Hãy nhập tên của bạn <3 " required>
                 </div>
                 <div class="form__row">
                     <label for="attend">Tham dự</label>
                     <select id="attend" name="attend" required>
-                        <option value="">Chọn tình trạng tham dự</option>
+                        <option value="">Bạn sẽ tham dự cùng chúng tôi chứ?</option>
                         <option value="yes">Sẽ tham dự</option>
                         <option value="no">Không tham dự</option>
                     </select>
@@ -278,7 +283,7 @@
 
     <footer class="footer">
         <div class="container footer__inner">
-            <p>© <span id="year"></span> Thiệp cưới của <span id="footerNames">[Tên Cô Dâu] & [Tên Chú Rể]</span></p>
+            <p>© <span id="year"></span> Thiệp cưới của <span id="footerNames">Hải Hà & Phạm Cường</span></p>
             <a href="#hero" class="to-top" aria-label="Lên đầu trang"><i class="ri-arrow-up-line"></i></a>
         </div>
     </footer>
