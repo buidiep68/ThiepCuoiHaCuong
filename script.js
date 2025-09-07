@@ -36,6 +36,15 @@ function initHeroCarousel() {
         slide.className = 'carousel__slide';
         const img = document.createElement('img');
         img.src = src; img.alt = `Banner ${idx + 1}`;
+        img.decoding = 'async';
+        img.setAttribute('sizes', '100vw');
+        if (idx === 0) {
+            img.loading = 'eager';
+            img.setAttribute('fetchpriority', 'high');
+        } else {
+            img.loading = 'lazy';
+            img.setAttribute('fetchpriority', 'low');
+        }
         slide.appendChild(img);
         track.appendChild(slide);
         const dot = document.createElement('button');
