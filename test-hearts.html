@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Hearts - Debug</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f0f0f0;
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .test-heart {
+            position: absolute;
+            font-size: 24px;
+            color: #ff6b9d;
+            text-shadow: 0 2px 8px rgba(255, 107, 157, 0.4);
+            animation: testFall 5s linear infinite;
+        }
+
+        @keyframes testFall {
+            0% {
+                top: -50px;
+                left: 10%;
+                opacity: 1;
+            }
+
+            100% {
+                top: 100vh;
+                left: 10%;
+                opacity: 0;
+            }
+        }
+
+        .controls {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            background: #ff6b9d;
+            color: white;
+            cursor: pointer;
+        }
+
+        .status {
+            margin-top: 10px;
+            padding: 10px;
+            background: #e8f5e8;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="controls">
+        <h3>Test Hearts</h3>
+        <button onclick="spawnTestHeart()">Spawn Heart</button>
+        <button onclick="spawnAllHearts()">Spawn All Hearts</button>
+        <button onclick="clearHearts()">Clear All</button>
+        <div class="status" id="status">Ready to test hearts</div>
+    </div>
+
+    <script>
+        let heartCount = 0;
+
+        function spawnTestHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'test-heart';
+            heart.textContent = '💖';
+            heart.style.left = Math.random() * 80 + 10 + '%';
+            heart.style.animationDelay = Math.random() * 2 + 's';
+
+            document.body.appendChild(heart);
+            heartCount++;
+
+            document.getElementById('status').textContent = `Hearts spawned: ${heartCount}`;
+
+            // Remove after animation
+            setTimeout(() => {
+                heart.remove();
+                heartCount--;
+                document.getElementById('status').textContent = `Hearts spawned: ${heartCount}`;
+            }, 5000);
+        }
+
+        function spawnAllHearts() {
+            const hearts = ['💖', '❤️', '💕', '💗', '♥️'];
+            for (let i = 0; i < 10; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'test-heart';
+                    heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                    heart.style.left = Math.random() * 80 + 10 + '%';
+                    heart.style.animationDelay = Math.random() * 2 + 's';
+
+                    document.body.appendChild(heart);
+                    heartCount++;
+
+                    document.getElementById('status').textContent = `Hearts spawned: ${heartCount}`;
+
+                    setTimeout(() => {
+                        heart.remove();
+                        heartCount--;
+                        document.getElementById('status').textContent = `Hearts spawned: ${heartCount}`;
+                    }, 5000);
+                }, i * 200);
+            }
+        }
+
+        function clearHearts() {
+            document.querySelectorAll('.test-heart').forEach(heart => heart.remove());
+            heartCount = 0;
+            document.getElementById('status').textContent = 'All hearts cleared';
+        }
+
+        // Auto spawn hearts every 2 seconds
+        setInterval(spawnTestHeart, 2000);
+
+        // Log device info
+        console.log('User Agent:', navigator.userAgent);
+        console.log('Screen size:', screen.width + 'x' + screen.height);
+        console.log('Viewport size:', window.innerWidth + 'x' + window.innerHeight);
+    </script>
+</body>
+
+</html>

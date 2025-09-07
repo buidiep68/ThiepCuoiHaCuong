@@ -427,6 +427,40 @@ document.addEventListener('DOMContentLoaded', () => {
     // Expose for quick customization in console
     window.__INVITE_CONFIG__ = config;
 
+    // Debug function to manually spawn hearts
+    window.debugHearts = function () {
+        const heartLayer = document.getElementById('heartLayer');
+        if (!heartLayer) {
+            console.log('❌ Heart layer not found!');
+            return;
+        }
+
+        console.log('✅ Heart layer found:', heartLayer);
+        console.log('Current heart count:', heartLayer.children.length);
+
+        // Force spawn a heart
+        const heart = document.createElement('div');
+        heart.className = 'fall-item heart';
+        heart.textContent = '💖';
+        heart.style.left = '50%';
+        heart.style.top = '-50px';
+        heart.style.position = 'absolute';
+        heart.style.fontSize = '30px';
+        heart.style.color = '#ff6b9d';
+        heart.style.zIndex = '1000';
+        heart.style.opacity = '1';
+        heart.style.display = 'block';
+
+        heartLayer.appendChild(heart);
+        console.log('💖 Debug heart spawned!');
+
+        // Remove after 5 seconds
+        setTimeout(() => {
+            heart.remove();
+            console.log('💖 Debug heart removed');
+        }, 5000);
+    };
+
     // ====== Image Manager ======
     class ImageManager {
         constructor() {
@@ -959,6 +993,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const el = document.createElement('div');
             el.className = `fall-item ${type}`;
             el.style.left = rand(-5, 100) + 'vw';
+            el.style.top = '-50px';
+            el.style.position = 'absolute';
+            el.style.zIndex = '100';
+            el.style.opacity = '1';
+            el.style.display = 'block';
 
             // Different sizes for different types
             let fontSize;
@@ -970,9 +1009,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 textContent = '✦';
                 animationDuration = `${rand(8, 16)}s, ${rand(3, 6)}s`;
             } else if (type === 'heart') {
-                fontSize = rand(12, 20);
-                textContent = '💖';
+                fontSize = rand(20, 30);
+                // Try different heart symbols for better compatibility
+                const hearts = ['💖', '❤️', '💕', '💗', '♥️'];
+                textContent = hearts[Math.floor(Math.random() * hearts.length)];
                 animationDuration = `${rand(10, 18)}s, ${rand(4, 8)}s, ${rand(1, 2)}s`;
+                console.log('Creating heart element:', el, 'with text:', textContent);
             } else { // petal
                 fontSize = rand(10, 18);
                 textContent = '❀';
@@ -983,8 +1025,19 @@ document.addEventListener('DOMContentLoaded', () => {
             el.style.animationDuration = animationDuration;
             el.style.setProperty('--sway', `${rand(20, 40)}px`);
             el.textContent = textContent;
+
+            // Force visibility
+            el.style.color = '#ff6b9d';
+            el.style.textShadow = '0 2px 8px rgba(255, 107, 157, 0.6)';
+
             layer.appendChild(el);
             el.addEventListener('animationend', () => el.remove());
+
+            // Debug log for hearts
+            if (type === 'heart') {
+                console.log('Heart element added to DOM:', el);
+                console.log('Heart layer children count:', layer.children.length);
+            }
         }
 
         let petalCount = 0, snowCount = 0, heartCount = 0;
@@ -1004,7 +1057,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         setInterval(() => {
             if (document.hidden) return;
-            if (heartCount < HEART_MAX) { spawnItem(heartLayer, 'heart'); heartCount++; }
+            if (heartCount < HEART_MAX) {
+                spawnItem(heartLayer, 'heart');
+                heartCount++;
+                console.log('💖 Heart spawned! Count:', heartCount);
+            }
         }, 1500);
 
         // Gradually allow more by removing on end
