@@ -19,6 +19,54 @@ const config = {
 };
 
 // ====== Global Functions ======
+
+// Check WebP support
+function supportsWebP() {
+    return new Promise((resolve) => {
+        const webP = new Image();
+        webP.onload = webP.onerror = () => {
+            resolve(webP.height === 2);
+        };
+        webP.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
+    });
+}
+
+// Get optimized image path based on device and format support
+async function getOptimizedImagePath(originalPath) {
+    const isMobile = window.innerWidth <= 768;
+    const supportsWebPFormat = await supportsWebP();
+    
+    // For now, return original path
+    // In production, you would return optimized paths like:
+    // return supportsWebPFormat ? originalPath.replace('.jpg', '.webp') : originalPath;
+    return originalPath;
+}
+
+// Preload critical images
+async function preloadCriticalImages() {
+    const criticalImages = [
+        'images/hero/hero1.jpg',
+        'images/couple/bride.jpg',
+        'images/couple/groom.jpg'
+    ];
+    
+    const promises = criticalImages.map(src => {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = resolve;
+            img.onerror = reject;
+            img.src = src;
+        });
+    });
+    
+    try {
+        await Promise.all(promises);
+        console.log('✅ Critical images preloaded');
+    } catch (error) {
+        console.log('⚠️ Some critical images failed to preload:', error);
+    }
+}
+
 function initHeroCarousel() {
     const slider = document.getElementById('heroSlider');
     const dotsEl = document.getElementById('heroDots');
@@ -75,6 +123,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     console.log('Mobile device detected:', isMobile);
     console.log('User agent:', navigator.userAgent);
+
+    // Preload critical images for faster loading
+    preloadCriticalImages();
 
     // URL params: ?guest=Tên%20bạn
     const url = new URL(window.location.href);

@@ -4,7 +4,9 @@
   "description": "Thiệp cưới online - Vũ Hải Hà & Phạm Văn Cường",
   "scripts": {
     "update-version": "node update-version.js",
-    "deploy": "npm run update-version && git add . && git commit -m \"Update version and deploy\" && git push origin main"
+    "optimize-images": "node optimize-images.js",
+    "deploy": "npm run update-version && git add . && git commit -m \"Update version and deploy\" && git push origin main",
+    "deploy-optimized": "npm run optimize-images && npm run update-version && git add . && git commit -m \"Optimize images and deploy\" && git push origin main"
   },
   "keywords": ["wedding", "invitation", "vietnamese"],
   "author": "buidiep68",
