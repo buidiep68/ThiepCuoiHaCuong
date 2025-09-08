@@ -5,10 +5,17 @@
   "scripts": {
     "update-version": "node update-version.js",
     "optimize-images": "node optimize-images.js",
+    "create-thumbnails": "node create-thumbnails.js",
+    "compress-images": "node compress-images.js",
     "deploy": "npm run update-version && git add . && git commit -m \"Update version and deploy\" && git push origin main",
-    "deploy-optimized": "npm run optimize-images && npm run update-version && git add . && git commit -m \"Optimize images and deploy\" && git push origin main"
+    "deploy-optimized": "npm run optimize-images && npm run update-version && git add . && git commit -m \"Optimize images and deploy\" && git push origin main",
+    "deploy-fast": "npm run create-thumbnails && npm run compress-images && npm run update-version && git add . && git commit -m \"Fast loading optimization\" && git push origin main"
   },
-  "keywords": ["wedding", "invitation", "vietnamese"],
+  "keywords": [
+    "wedding",
+    "invitation",
+    "vietnamese"
+  ],
   "author": "buidiep68",
   "license": "MIT"
 }

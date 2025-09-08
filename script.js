@@ -35,33 +35,61 @@ function supportsWebP() {
 async function getOptimizedImagePath(originalPath) {
     const isMobile = window.innerWidth <= 768;
     const supportsWebPFormat = await supportsWebP();
-    
+
     // For now, return original path
     // In production, you would return optimized paths like:
     // return supportsWebPFormat ? originalPath.replace('.jpg', '.webp') : originalPath;
     return originalPath;
 }
 
-// Preload critical images
+// Progressive image loading with blur-to-sharp effect
+function loadImageProgressive(thumbnailSrc, fullSrc, container) {
+    return new Promise((resolve, reject) => {
+        // Load thumbnail first (fast)
+        const thumbnail = new Image();
+        thumbnail.onload = () => {
+            // Show thumbnail immediately
+            container.style.backgroundImage = `url(${thumbnailSrc})`;
+            container.style.filter = 'blur(5px)';
+            container.style.transition = 'filter 0.3s ease';
+
+            // Load full image in background
+            const fullImage = new Image();
+            fullImage.onload = () => {
+                // Replace with full image
+                container.style.backgroundImage = `url(${fullSrc})`;
+                container.style.filter = 'blur(0px)';
+                resolve(fullImage);
+            };
+            fullImage.onerror = reject;
+            fullImage.src = fullSrc;
+        };
+        thumbnail.onerror = reject;
+        thumbnail.src = thumbnailSrc;
+    });
+}
+
+// Preload critical images with progressive loading
 async function preloadCriticalImages() {
     const criticalImages = [
-        'images/hero/hero1.jpg',
-        'images/couple/bride.jpg',
-        'images/couple/groom.jpg'
+        { thumbnail: 'images-thumbnails/hero/hero1.jpg', full: 'images/hero/hero1.jpg' },
+        { thumbnail: 'images-thumbnails/couple/bride.jpg', full: 'images/couple/bride.jpg' },
+        { thumbnail: 'images-thumbnails/couple/groom.jpg', full: 'images/couple/groom.jpg' }
     ];
-    
-    const promises = criticalImages.map(src => {
+
+    const promises = criticalImages.map(({ thumbnail, full }) => {
         return new Promise((resolve, reject) => {
             const img = new Image();
             img.onload = resolve;
             img.onerror = reject;
-            img.src = src;
+            // Load thumbnail first for instant display
+            img.src = thumbnail;
         });
     });
-    
+
     try {
         await Promise.all(promises);
-        console.log('✅ Critical images preloaded');
+        console.log('✅ Critical images preloaded (thumbnails)');
     } catch (error) {
         console.log('⚠️ Some critical images failed to preload:', error);
     }
@@ -124,8 +152,22 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('Mobile device detected:', isMobile);
     console.log('User agent:', navigator.userAgent);
 
+    // Performance monitoring
+    const startTime = performance.now();
+    console.log('🚀 Page load started at:', startTime);
+
     // Preload critical images for faster loading
-    preloadCriticalImages();
+    preloadCriticalImages().then(() => {
+        const endTime = performance.now();
+        const loadTime = (endTime - startTime) / 1000;
+        console.log(`⚡ Critical images loaded in: ${loadTime.toFixed(2)}s`);
+
+        if (loadTime > 2) {
+            console.warn('⚠️ Loading time exceeds 2s target:', loadTime.toFixed(2) + 's');
+        } else {
+            console.log('✅ Loading time within 2s target:', loadTime.toFixed(2) + 's');
+        }
+    });
 
     // URL params: ?guest=Tên%20bạn
     const url = new URL(window.location.href);
