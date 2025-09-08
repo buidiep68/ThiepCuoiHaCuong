@@ -118,37 +118,53 @@
 
     <section class="event section" id="event">
         <div class="container">
-            <h2 class="section__title">Lịch trình & Địa điểm</h2>
-            <div class="timeline">
-                <div class="timeline__item">
-                    <div class="timeline__time">09:00</div>
-                    <div class="timeline__content">
-                        <h3>Lễ Vu Quy</h3>
-                        <p id="ceremonyAddress">Tư gia nhà gái — [Địa chỉ, phường, quận]</p>
-                    </div>
-                </div>
-                <div class="timeline__item">
-                    <div class="timeline__time">10:30</div>
-                    <div class="timeline__content">
-                        <h3>Lễ Thành Hôn & Tiệc</h3>
-                        <p id="receptionAddress">Nhà hàng [Tên nhà hàng], Sảnh [Tên sảnh] — [Địa chỉ, quận]</p>
-                    </div>
-                </div>
-            </div>
+            <h2 class="section__title">Sự kiện cưới</h2>
 
-            <div class="event__cta">
-                <a class="btn" id="openMapsBride"><i class="ri-map-pin-2-line"></i> Chỉ đường Nhà gái</a>
-                <a class="btn" id="openMapsGroom"><i class="ri-map-pin-2-line"></i> Chỉ đường Nhà trai</a>
-                <a class="btn btn--ghost" id="callBride"><i class="ri-phone-line"></i> Gọi cho Nhà gái</a>
-                <a class="btn btn--ghost" id="callGroom"><i class="ri-phone-line"></i> Gọi cho Nhà trai</a>
+            <div class="event__cards">
+                <article class="event-card">
+                    <div class="event-card__image" style="background-image:url('images/couple/bride1.jpg');"></div>
+                    <div class="event-card__body">
+                        <h3 class="event-card__title">Lễ cưới Nhà gái</h3>
+                        <p class="event-card__addr" id="ceremonyAddress">Thôn Hy Hà, xã Ngọc Lâm, tỉnh Hưng Yên</p>
+                        <p class="event-card__time"><i class="ri-time-line"></i> 10:30 AM • <span
+                                id="ceremonyDate">28/09/2025</span></p>
+                        <div class="event-card__actions">
+                            <a class="btn" id="openMapsBride"><i class="ri-map-pin-2-line"></i> Xem bản đồ</a>
+                            <a class="btn btn--ghost" id="callBride"><i class="ri-phone-line"></i> Gọi cho Nhà gái</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="event-card">
+                    <div class="event-card__image" style="background-image:url('images/couple/couple3.jpg');"></div>
+                    <div class="event-card__body">
+                        <h3 class="event-card__title">Lễ cưới Nhà trai</h3>
+                        <p class="event-card__addr" id="receptionAddress">Thôn Minh Thành, xã Hồng Minh, tỉnh Hưng Yên
+                        </p>
+                        <p class="event-card__time"><i class="ri-time-line"></i> 11:30 AM • <span
+                                id="receptionDate">28/09/2025</span></p>
+                        <div class="event-card__actions">
+                            <a class="btn" id="openMapsGroom"><i class="ri-map-pin-2-line"></i> Xem bản đồ</a>
+                            <a class="btn btn--ghost" id="callGroom"><i class="ri-phone-line"></i> Gọi cho Nhà trai</a>
+                        </div>
+                    </div>
+                </article>
             </div>
+        </div>
+    </section>
+
+    <!-- Quote banner -->
+    <section class="quote section" id="quote">
+        <div class="quote__inner">
+            <p class="quote__text">“ Một cuộc hôn nhân đẹp là khi hai người vẫn chọn yêu nhau mỗi ngày, ngay cả khi ngày
+                đó không dễ dàng. ”</p>
         </div>
     </section>
 
     <section class="gallery section" id="gallery">
         <div class="container">
             <h2 class="section__title">Album ảnh</h2>
-            <div class="grid gallery__grid" id="galleryGrid">
+            <div class="grid gallery__grid limit-10" id="galleryGrid">
                 <img src="images/gallery/gallery1.jpg" alt="Ảnh cưới 1" class="gallery__img" loading="lazy"
                     decoding="async" sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw" />
                 <img src="images/gallery/gallery2.jpg" alt="Ảnh cưới 2" class="gallery__img" loading="lazy"
@@ -161,6 +177,22 @@
                     decoding="async" sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw" />
                 <img src="images/gallery/gallery6.jpg" alt="Ảnh cưới 6" class="gallery__img" loading="lazy"
                     decoding="async" sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw" />
+                <!-- Images 7-12 optional; users can add more and they will be hidden by default beyond 10 -->
+                <img src="images/gallery/gallery1.jpg" alt="Ảnh cưới 7" class="gallery__img" loading="lazy"
+                    decoding="async" sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw" />
+                <img src="images/gallery/gallery2.jpg" alt="Ảnh cưới 8" class="gallery__img" loading="lazy"
+                    decoding="async" sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw" />
+                <img src="images/gallery/gallery3.jpg" alt="Ảnh cưới 9" class="gallery__img" loading="lazy"
+                    decoding="async" sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw" />
+                <img src="images/gallery/gallery4.jpg" alt="Ảnh cưới 10" class="gallery__img" loading="lazy"
+                    decoding="async" sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw" />
+                <img src="images/gallery/gallery5.jpg" alt="Ảnh cưới 11" class="gallery__img" loading="lazy"
+                    decoding="async" sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw" />
+                <img src="images/gallery/gallery6.jpg" alt="Ảnh cưới 12" class="gallery__img" loading="lazy"
+                    decoding="async" sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw" />
+            </div>
+            <div class="gallery__actions">
+                <button class="btn" id="showAllGallery" aria-expanded="false">Tất cả hình ảnh</button>
             </div>
         </div>
 
@@ -169,6 +201,21 @@
             <img id="lightboxImg" alt="Phóng to" />
         </div>
     </section>
+
+    <!-- Fullscreen Gallery Modal -->
+    <div class="gallery-modal" id="galleryModal" aria-hidden="true">
+        <button class="gallery-modal__close" id="galleryModalClose" aria-label="Đóng"><i
+                class="ri-close-line"></i></button>
+        <div class="gallery-viewer">
+            <div class="gallery-toolbar"><span id="galleryCounter">1 / 1</span></div>
+            <button class="gallery-nav prev" id="galleryPrev" aria-label="Ảnh trước"><i
+                    class="ri-arrow-left-s-line"></i></button>
+            <button class="gallery-nav next" id="galleryNext" aria-label="Ảnh sau"><i
+                    class="ri-arrow-right-s-line"></i></button>
+            <img class="gallery-main" id="galleryMain" alt="Ảnh" />
+            <div class="gallery-thumbs" id="galleryThumbs"></div>
+        </div>
+    </div>
 
     <section class="rsvp section" id="rsvp">
         <div class="container">

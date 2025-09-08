@@ -405,6 +405,72 @@ document.addEventListener('DOMContentLoaded', () => {
         img.setAttribute('role', 'button');
         img.setAttribute('aria-label', 'Xem ảnh phóng to');
     });
+
+    // ====== Gallery: Show all images on button click ======
+    const showAllBtn = document.getElementById('showAllGallery');
+    const galleryGrid = document.getElementById('galleryGrid');
+    if (showAllBtn && galleryGrid) {
+        showAllBtn.addEventListener('click', () => {
+            // Open fullscreen gallery modal instead of inline expand
+            const modal = document.getElementById('galleryModal');
+            if (!modal) return;
+
+            // Build viewer state
+            const images = Array.from(document.querySelectorAll('#galleryGrid .gallery__img')).map(img => ({
+                src: img.getAttribute('src'),
+                alt: img.alt || ''
+            }));
+            if (images.length === 0) return;
+
+            let current = 0;
+            const main = document.getElementById('galleryMain');
+            const thumbs = document.getElementById('galleryThumbs');
+            const counter = document.getElementById('galleryCounter');
+            const prev = document.getElementById('galleryPrev');
+            const next = document.getElementById('galleryNext');
+
+            function render(index) {
+                current = (index + images.length) % images.length;
+                main.src = images[current].src;
+                main.alt = images[current].alt;
+                counter.textContent = `${current + 1} / ${images.length}`;
+                Array.from(thumbs.children).forEach((t, i) => t.classList.toggle('active', i === current));
+            }
+
+            // Thumbnails
+            thumbs.innerHTML = '';
+            images.forEach((img, i) => {
+                const t = document.createElement('img');
+                t.src = img.src;
+                t.alt = img.alt;
+                t.addEventListener('click', () => render(i));
+                thumbs.appendChild(t);
+            });
+
+            prev.onclick = () => render(current - 1);
+            next.onclick = () => render(current + 1);
+            render(0);
+
+            modal.classList.add('show');
+            modal.setAttribute('aria-hidden', 'false');
+        });
+    }
+
+    // Close fullscreen gallery
+    const galleryModal = document.getElementById('galleryModal');
+    const galleryModalClose = document.getElementById('galleryModalClose');
+    if (galleryModal && galleryModalClose) {
+        galleryModalClose.addEventListener('click', () => {
+            galleryModal.classList.remove('show');
+            galleryModal.setAttribute('aria-hidden', 'true');
+        });
+        galleryModal.addEventListener('click', (e) => {
+            if (e.target === galleryModal) {
+                galleryModal.classList.remove('show');
+                galleryModal.setAttribute('aria-hidden', 'true');
+            }
+        });
+    }
     // Enable lightbox for any element with data-lightbox (e.g., QR images)
     document.querySelectorAll('[data-lightbox]').forEach(el => {
         el.addEventListener('click', () => {
@@ -1146,8 +1212,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 fontSize = rand(20, 30);
                 // Try different heart symbols for better compatibility
                 const hearts = ['💖', '❤️', '💕', '💗', '♥️'];
-                textContent = hearts[Math.floor(Math.random() * hearts.length)];
-                animationDuration = `${rand(10, 18)}s, ${rand(4, 8)}s, ${rand(1, 2)}s`;
+                textContent = '❤️';
+                animationDuration = `${rand(8, 16)}s, ${rand(3, 6)}s`;
                 console.log('Creating heart element:', el, 'with text:', textContent);
             } else { // petal
                 fontSize = rand(10, 18);
