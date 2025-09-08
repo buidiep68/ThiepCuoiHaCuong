@@ -1,6 +1,57 @@
 [build]
   publish = "."
 
+# HTML files - no cache để luôn load phiên bản mới nhất
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+    Pragma = "no-cache"
+    Expires = "0"
+
+# Root index.html - no cache
+[[headers]]
+  for = "/"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+    Pragma = "no-cache"
+    Expires = "0"
+
+# CSS files - cache lâu nhưng có versioning
+[[headers]]
+  for = "*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# JS files - cache lâu nhưng có versioning
+[[headers]]
+  for = "*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Images - cache lâu
+[[headers]]
+  for = "*.jpg"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.png"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.webp"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Audio files - cache lâu
+[[headers]]
+  for = "*.mp3"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Security headers
 [[headers]]
   for = "/*"
   [headers.values]
@@ -8,36 +59,6 @@
     X-XSS-Protection = "1; mode=block"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
-
-[[headers]]
-  for = "*.css"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000"
-
-[[headers]]
-  for = "*.js"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000"
-
-[[headers]]
-  for = "*.jpg"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000"
-
-[[headers]]
-  for = "*.png"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000"
-
-[[headers]]
-  for = "*.webp"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000"
-
-[[headers]]
-  for = "*.mp3"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000"
 
 [[redirects]]
   from = "/*"

@@ -1,0 +1,12 @@
+{
+  "name": "thiep-cuoi",
+  "version": "1.0.0",
+  "description": "Thiệp cưới online - Vũ Hải Hà & Phạm Văn Cường",
+  "scripts": {
+    "update-version": "node update-version.js",
+    "deploy": "npm run update-version && git add . && git commit -m \"Update version and deploy\" && git push origin main"
+  },
+  "keywords": ["wedding", "invitation", "vietnamese"],
+  "author": "buidiep68",
+  "license": "MIT"
+}
