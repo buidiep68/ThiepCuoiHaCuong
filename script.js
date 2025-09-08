@@ -49,7 +49,7 @@ function loadImageProgressive(thumbnailSrc, fullSrc, container) {
         container.style.width = '100%';
         container.style.aspectRatio = '16/9';
         container.style.display = 'block';
-        
+
         // Load thumbnail first (fast)
         const thumbnail = new Image();
         thumbnail.onload = () => {
@@ -57,7 +57,7 @@ function loadImageProgressive(thumbnailSrc, fullSrc, container) {
             container.style.backgroundImage = `url(${thumbnailSrc})`;
             container.style.filter = 'blur(5px)';
             container.style.transition = 'filter 0.3s ease';
-            
+
             // Load full image in background
             const fullImage = new Image();
             fullImage.onload = () => {
@@ -327,14 +327,14 @@ document.addEventListener('DOMContentLoaded', () => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const img = entry.target;
-                    
+
                     // Set dimensions before loading to prevent layout shift
                     if (!img.style.aspectRatio) {
                         img.style.aspectRatio = '4/3';
                         img.style.width = '100%';
                         img.style.height = 'auto';
                     }
-                    
+
                     img.classList.add('loaded');
                     observer.unobserve(img);
                 }
