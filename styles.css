@@ -13,9 +13,15 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px; /* Offset for fixed header */
+}
+
 html,
 body {
     height: 100%;
+    overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
 body {
@@ -33,6 +39,9 @@ body {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    /* Prevent layout shift */
+    overflow-x: hidden;
+    scroll-behavior: smooth;
 }
 
 img {
@@ -44,6 +53,10 @@ img {
     /* Lazy loading optimization */
     opacity: 0;
     transition: opacity 0.3s ease-in-out;
+    /* Prevent layout shift */
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16/9; /* Default aspect ratio */
 }
 
 img.loaded {
@@ -53,6 +66,22 @@ img.loaded {
 /* Critical images should load immediately */
 img[data-critical] {
     opacity: 1;
+}
+
+/* Specific aspect ratios for different image types */
+.gallery__img {
+    aspect-ratio: 4/3; /* Gallery images */
+    object-fit: cover;
+}
+
+.hero__img {
+    aspect-ratio: 16/9; /* Hero images */
+    object-fit: cover;
+}
+
+.couple__img {
+    aspect-ratio: 3/4; /* Portrait images */
+    object-fit: cover;
 }
 
 /* Loading skeleton for images */
@@ -81,6 +110,10 @@ img[data-critical] {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    /* Prevent layout shift */
+    width: 100%;
+    aspect-ratio: 16/9;
+    display: block;
 }
 
 .progressive-image::before {
@@ -94,10 +127,25 @@ img[data-critical] {
     background-size: 200% 100%;
     animation: loading 1.5s infinite;
     z-index: 1;
+    transition: opacity 0.3s ease;
 }
 
 .progressive-image.loaded::before {
-    display: none;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Specific aspect ratios for progressive images */
+.progressive-image.hero {
+    aspect-ratio: 16/9;
+}
+
+.progressive-image.gallery {
+    aspect-ratio: 4/3;
+}
+
+.progressive-image.couple {
+    aspect-ratio: 3/4;
 }
 
 .container {

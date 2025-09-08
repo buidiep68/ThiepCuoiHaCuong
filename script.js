@@ -42,9 +42,14 @@ async function getOptimizedImagePath(originalPath) {
     return originalPath;
 }
 
-// Progressive image loading with blur-to-sharp effect
+// Progressive image loading with blur-to-sharp effect (no layout shift)
 function loadImageProgressive(thumbnailSrc, fullSrc, container) {
     return new Promise((resolve, reject) => {
+        // Set container dimensions first to prevent layout shift
+        container.style.width = '100%';
+        container.style.aspectRatio = '16/9';
+        container.style.display = 'block';
+        
         // Load thumbnail first (fast)
         const thumbnail = new Image();
         thumbnail.onload = () => {
@@ -52,13 +57,14 @@ function loadImageProgressive(thumbnailSrc, fullSrc, container) {
             container.style.backgroundImage = `url(${thumbnailSrc})`;
             container.style.filter = 'blur(5px)';
             container.style.transition = 'filter 0.3s ease';
-
+            
             // Load full image in background
             const fullImage = new Image();
             fullImage.onload = () => {
                 // Replace with full image
                 container.style.backgroundImage = `url(${fullSrc})`;
                 container.style.filter = 'blur(0px)';
+                container.classList.add('loaded');
                 resolve(fullImage);
             };
             fullImage.onerror = reject;
@@ -66,6 +72,15 @@ function loadImageProgressive(thumbnailSrc, fullSrc, container) {
         };
         thumbnail.onerror = reject;
         thumbnail.src = thumbnailSrc;
+    });
+}
+
+// Smooth scroll to element without jump
+function smoothScrollTo(element, offset = 80) {
+    const elementPosition = element.offsetTop - offset;
+    window.scrollTo({
+        top: elementPosition,
+        behavior: 'smooth'
     });
 }
 
@@ -305,13 +320,21 @@ document.addEventListener('DOMContentLoaded', () => {
     if ('IntersectionObserver' in window) {
         const observerOptions = {
             threshold: 0.1,
-            rootMargin: '0px 0px 50px 0px'
+            rootMargin: '0px 0px 100px 0px' // Load earlier to prevent jump
         };
 
         const imageObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const img = entry.target;
+                    
+                    // Set dimensions before loading to prevent layout shift
+                    if (!img.style.aspectRatio) {
+                        img.style.aspectRatio = '4/3';
+                        img.style.width = '100%';
+                        img.style.height = 'auto';
+                    }
+                    
                     img.classList.add('loaded');
                     observer.unobserve(img);
                 }
@@ -320,11 +343,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Observe all gallery images
         document.querySelectorAll('.gallery__img').forEach(img => {
+            // Set placeholder dimensions immediately
+            img.style.aspectRatio = '4/3';
+            img.style.width = '100%';
+            img.style.height = 'auto';
             imageObserver.observe(img);
         });
     } else {
         // Fallback for older browsers - just show all images
         document.querySelectorAll('.gallery__img').forEach(img => {
+            img.style.aspectRatio = '4/3';
+            img.style.width = '100%';
+            img.style.height = 'auto';
             img.classList.add('loaded');
         });
     }
