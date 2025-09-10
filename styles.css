@@ -744,6 +744,12 @@ img {
     }
 }
 
+/* Defer rendering of offscreen gallery area for faster first paint */
+.gallery.section {
+    content-visibility: auto;
+    contain-intrinsic-size: 1200px;
+}
+
 .gallery__img {
     width: 100%;
     height: 300px;

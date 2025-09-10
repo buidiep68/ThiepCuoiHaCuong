@@ -5,8 +5,11 @@ const config = {
     weddingDateISO: '2025-09-28T10:30:00+07:00', // Định dạng ISO với múi giờ
     ceremonyAddress: 'Thôn Hy Hà, xã Ngọc Lâm, tỉnh Hưng Yên',
     receptionAddress: 'Thôn Minh Thành, xã Hồng Minh, tỉnh Hưng Yên',
-    mapQueryBride: 'Thôn Hy Hà, xã Ngọc Lâm, tỉnh Hưng Yên',
-    mapQueryGroom: 'Thôn Minh Thành, xã Hồng Minh, tỉnh Hưng Yên',
+    // mapQueryBride: 'Thôn Hy Hà, xã Ngọc Lâm, tỉnh Hưng Yên',
+    // URL nhúng Google Maps ưu tiên cho bản đồ Nhà trai (nếu có)
+    mapEmbedGroom: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2511.41867995849!2d106.20629562029627!3d20.524073528142257!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135e9004333ba6b%3A0x451c662a889d613d!2zVGjDtG4gbWluaCB0aMOgbmggeMOjIGjhu5NuZyBtaW5oIGh1eeG7h24gaMawbmcgaMOgIHThu4luaCB0aMOhaSBiaW5o!5e1!3m2!1svi!2s!4v1757517094747!5m2!1svi!2s',
+    // URL nhúng Google Maps ưu tiên cho bản đồ Nhà gái (nếu có)
+    mapEmbedBride: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3548.3822170556705!2d106.26821997915422!3d20.665814431631357!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ec957e67bd85%3A0x974ca44e3d58fd9c!2zSHkgSMOgLCBRdeG7s25oIE5n4buNYywgUXXhu7NuaCBQaOG7pSwgVGjDoWkgQsOsbmgsIFZp4buHdCBOYW0!5e1!3m2!1svi!2s!4v1757517328731!5m2!1svi!2s',
     phones: { bride: 'tel:0376362912', groom: 'tel:0973908720' },
     formspreeEndpoint: '', // Ví dụ: 'https://formspree.io/f/xxxxxx' nếu dùng Formspree
     wishesEndpoint: '', // REST endpoint lưu Lời chúc (POST/GET). Bỏ trống để dùng localStorage
@@ -312,8 +315,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Set iframe maps
     const brideFrame = document.getElementById('mapFrameBride');
     const groomFrame = document.getElementById('mapFrameGroom');
-    if (brideFrame) brideFrame.src = `https://www.google.com/maps?q=${encodeURIComponent(config.mapQueryBride || config.ceremonyAddress)}&z=15&output=embed`;
-    if (groomFrame) groomFrame.src = `https://www.google.com/maps?q=${encodeURIComponent(config.mapQueryGroom || config.receptionAddress)}&z=15&output=embed`;
+    if (brideFrame) brideFrame.src = (config.mapEmbedBride && String(config.mapEmbedBride).startsWith('https://www.google.com/maps/embed'))
+        ? config.mapEmbedBride
+        : `https://www.google.com/maps?q=${encodeURIComponent(config.mapQueryBride || config.ceremonyAddress)}&z=15&output=embed`;
+    if (groomFrame) groomFrame.src = (config.mapEmbedGroom && String(config.mapEmbedGroom).startsWith('https://www.google.com/maps/embed'))
+        ? config.mapEmbedGroom
+        : `https://www.google.com/maps?q=${encodeURIComponent(config.mapQueryGroom || config.receptionAddress)}&z=15&output=embed`;
 
     // ====== Lazy Loading Animation ======
     // Check if IntersectionObserver is supported
@@ -347,6 +354,8 @@ document.addEventListener('DOMContentLoaded', () => {
             img.style.aspectRatio = '4/3';
             img.style.width = '100%';
             img.style.height = 'auto';
+            img.loading = 'lazy';
+            img.decoding = 'async';
             imageObserver.observe(img);
         });
     } else {
@@ -355,21 +364,23 @@ document.addEventListener('DOMContentLoaded', () => {
             img.style.aspectRatio = '4/3';
             img.style.width = '100%';
             img.style.height = 'auto';
+            img.loading = 'lazy';
             img.classList.add('loaded');
         });
     }
 
     // ====== Image Error Handling ======
-    document.querySelectorAll('img').forEach(img => {
-        img.addEventListener('error', function () {
-            console.log('Image failed to load:', this.src);
-            // Add fallback or retry logic here if needed
+    // Reduce console noise in production
+    if (location.hostname === 'localhost') {
+        document.querySelectorAll('img').forEach(img => {
+            img.addEventListener('error', function () {
+                console.log('Image failed to load:', this.src);
+            });
+            img.addEventListener('load', function () {
+                console.log('Image loaded successfully:', this.src);
+            });
         });
-
-        img.addEventListener('load', function () {
-            console.log('Image loaded successfully:', this.src);
-        });
-    });
+    }
 
     // ====== Gallery Lightbox ======
     const lightbox = document.getElementById('lightbox');
@@ -1241,9 +1252,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         let petalCount = 0, snowCount = 0, heartCount = 0;
-        const PETAL_MAX = 20;
-        const SNOW_MAX = 18;
-        const HEART_MAX = 15;
+        // Limit particles on low-end devices
+        const isLowEnd = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4;
+        const PETAL_MAX = isLowEnd ? 8 : 20;
+        const SNOW_MAX = isLowEnd ? 6 : 18;
+        const HEART_MAX = isLowEnd ? 4 : 15;
 
         setInterval(() => {
             if (document.hidden) return;

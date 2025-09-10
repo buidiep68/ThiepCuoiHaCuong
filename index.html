@@ -165,31 +165,43 @@
         <div class="container">
             <h2 class="section__title">Album ảnh</h2>
             <div class="grid gallery__grid limit-10" id="galleryGrid">
-                <img src="images/gallery/gallery1.jpg" alt="Ảnh cưới 1" class="gallery__img" loading="lazy"
-                    decoding="async" sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw" />
-                <img src="images/gallery/gallery2.jpg" alt="Ảnh cưới 2" class="gallery__img" loading="lazy"
-                    decoding="async" sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw" />
+                <img src="images/gallery/gallery1.jpg" alt="Ảnh cưới 1" class="gallery__img" loading="eager"
+                    fetchpriority="high" decoding="async" width="1200" height="900"
+                    sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw" />
+                <img src="images/gallery/gallery2.jpg" alt="Ảnh cưới 2" class="gallery__img" loading="eager"
+                    fetchpriority="high" decoding="async" width="1200" height="900"
+                    sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw" />
                 <img src="images/gallery/gallery3.jpg" alt="Ảnh cưới 3" class="gallery__img" loading="lazy"
-                    decoding="async" sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw" />
+                    decoding="async" fetchpriority="low" width="1200" height="900"
+                    sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw" />
                 <img src="images/gallery/gallery4.jpg" alt="Ảnh cưới 4" class="gallery__img" loading="lazy"
-                    decoding="async" sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw" />
+                    decoding="async" fetchpriority="low" width="1200" height="900"
+                    sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw" />
                 <img src="images/gallery/gallery5.jpg" alt="Ảnh cưới 5" class="gallery__img" loading="lazy"
-                    decoding="async" sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw" />
+                    decoding="async" fetchpriority="low" width="1200" height="900"
+                    sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw" />
                 <img src="images/gallery/gallery6.jpg" alt="Ảnh cưới 6" class="gallery__img" loading="lazy"
-                    decoding="async" sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw" />
+                    decoding="async" fetchpriority="low" width="1200" height="900"
+                    sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw" />
                 <!-- Images 7-12 optional; users can add more and they will be hidden by default beyond 10 -->
                 <img src="images/gallery/gallery7.jpg" alt="Ảnh cưới 7" class="gallery__img" loading="lazy"
-                    decoding="async" sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw" />
+                    decoding="async" fetchpriority="low" width="1200" height="900"
+                    sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw" />
                 <img src="images/gallery/gallery8.jpg" alt="Ảnh cưới 8" class="gallery__img" loading="lazy"
-                    decoding="async" sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw" />
+                    decoding="async" fetchpriority="low" width="1200" height="900"
+                    sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw" />
                 <img src="images/gallery/gallery9.jpg" alt="Ảnh cưới 9" class="gallery__img" loading="lazy"
-                    decoding="async" sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw" />
+                    decoding="async" fetchpriority="low" width="1200" height="900"
+                    sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw" />
                 <img src="images/gallery/gallery10.jpg" alt="Ảnh cưới 10" class="gallery__img" loading="lazy"
-                    decoding="async" sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw" />
+                    decoding="async" fetchpriority="low" width="1200" height="900"
+                    sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw" />
                 <img src="images/gallery/gallery11.jpg" alt="Ảnh cưới 11" class="gallery__img" loading="lazy"
-                    decoding="async" sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw" />
+                    decoding="async" fetchpriority="low" width="1200" height="900"
+                    sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw" />
                 <img src="images/gallery/gallery12.jpg" alt="Ảnh cưới 12" class="gallery__img" loading="lazy"
-                    decoding="async" sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw" />
+                    decoding="async" fetchpriority="low" width="1200" height="900"
+                    sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw" />
             </div>
             <div class="gallery__actions">
                 <button class="btn" id="showAllGallery" aria-expanded="false">Tất cả hình ảnh</button>
@@ -353,6 +365,4 @@
     <script src="script.js?v=20241220"></script>
 </body>
 
-</html>< ! - -   F o r c e   d e p l o y   0 9 / 0 8 / 2 0 2 5   0 9 : 1 2 : 1 1   - - > 
-     
-     
+</html>
