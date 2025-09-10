@@ -302,10 +302,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ====== Maps & Call buttons ======
     document.getElementById('openMapsBride')?.addEventListener('click', () => {
+        // Ưu tiên mở URL nhúng nếu đã cấu hình, fallback sang truy vấn địa chỉ
+        if (config.mapEmbedBride && String(config.mapEmbedBride).startsWith('https://www.google.com/maps/embed')) {
+            window.open(config.mapEmbedBride, '_blank');
+            return;
+        }
         const q = encodeURIComponent(config.mapQueryBride || config.ceremonyAddress);
         window.open(`https://www.google.com/maps/search/?api=1&query=${q}`, '_blank');
     });
     document.getElementById('openMapsGroom')?.addEventListener('click', () => {
+        // Ưu tiên mở URL nhúng nếu đã cấu hình, fallback sang truy vấn địa chỉ
+        if (config.mapEmbedGroom && String(config.mapEmbedGroom).startsWith('https://www.google.com/maps/embed')) {
+            window.open(config.mapEmbedGroom, '_blank');
+            return;
+        }
         const q = encodeURIComponent(config.mapQueryGroom || config.receptionAddress);
         window.open(`https://www.google.com/maps/search/?api=1&query=${q}`, '_blank');
     });
