@@ -170,6 +170,7 @@ img {
     text-align: center;
     max-width: 800px;
     color: var(--muted);
+    font-style: italic;
 }
 
 /* Quote banner under event */
@@ -342,7 +343,7 @@ img {
     font-family: "Great Vibes", "Dancing Script", cursive;
     font-weight: 400;
     letter-spacing: 0.5px;
-    font-size: clamp(45px, 5vw, 56px);
+    font-size: clamp(35px, 5vw, 40px);
     margin: 8px 0 4px;
     color: white;
     text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
@@ -504,6 +505,7 @@ img {
     justify-content: center;
     gap: 12px;
     margin-top: 20px;
+    font-size: 13px;
 }
 
 /* Cards & grids */
